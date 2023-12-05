@@ -1,141 +1,202 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[29]:
-
-
-import pandas as pd
-import dash
-import dash_auth
-import dash_core_components as dcc
-import dash_html_components as html
-from dash.dependencies import Input, Output, State
-import plotly.express as px
-import plotly.graph_objects as go
-from plotly.colors import DEFAULT_PLOTLY_COLORS 
-
-
-USERNAME_PASSWORD = [['hyeongseok49','rlagudtjr49'],['kevin','kevin1234'],['hyorim1234','hyorim'],['yujin','yujin1234']]
-
-button1 = ['혼인율','경제활동 참가비율','자치구별 출산율']
-button2 = ['자치구별 1인당 GDP', '자치구별 월 평균 소득','자치구별 출산율']
-button3 = ['아파트 매매가','자치구별 출산율']
-button4 = ['교육 재정 지원','교육비 관련 부채 비율','교육비 관련 지출','자치구별 출산율']
-
-app = dash.Dash(__name__)
-auth = dash_auth.BasicAuth(app, USERNAME_PASSWORD)
-app.title = ('DashBoard | BABY BOOM')
-
-server = app.server
-
-app.layout = html.Div([
-		html.H2('What are the factors that influence the birth rate?', # title 정의
-						style = dict(textAlign = 'center',
-												 marginTop = 10, # 위쪽 여백
-												 marginBottom = 10 # 아래쪽 여백
-												)
-						),
-dcc.Tabs([
-        # tab 1
-        dcc.Tab(label = '취업률',
-                style = {'padding': '3px', 'fontWeight': 'bold',
-                         'borderBottom': '1px solid #d6d6d6'},
-                selected_style = {'padding': '3px', 'backgroundColor': '#119DFF', 'color': 'white',
-                                  'borderBottom': '1px solid #d6d6d6', 'borderTop': '1px solid #d6d6d6'},
-                children = [
-                   html.Div([
-                       html.P(children = '연도별: '),
-                       dcc.RadioItems(id = 'radio',
-                                      options = [{'label': i, 'value':i} for i in button1],
-                                      value = '취업률',
-                                      labelStyle = {'display': 'block'})
-                   ]),
-                   html.Div(className = 'Map, line',
-                            children = [
-                                html.Div(dcc.Graph(id = 'map1'), style = {'float':'left','width': '50%','height': 650,'margin-left': 'auto','margin-right': 0}),
-                                html.Div(dcc.Graph(id = 'map2'), style = {'float':'left','width': '50%','height': 650,'margin-left': 'auto','margin-right': 0}),
-                                html.Div(dcc.Graph(id = 'line1'),style = {'float':'left','display':'inline-block','width':'50%'}),
-                                html.Div(dcc.Graph(id = 'line2'),style = {'float':'left','display':'inline-block','width':'50%'})
-                ])
-               ]),
-        # tab 2
-         dcc.Tab(label = '소득대비 출산율',
-                style = {'padding': '3px', 'fontWeight': 'bold',
-                         'borderBottom': '1px solid #d6d6d6'},
-                selected_style = {'padding': '3px', 'backgroundColor': '#119DFF', 'color': 'white',
-                                  'borderBottom': '1px solid #d6d6d6', 'borderTop': '1px solid #d6d6d6'},
-                children = [
-                   html.Div([
-                       html.P(children = '자치구별 소득: '),
-                       dcc.RadioItems(id = 'radio',
-                                      options = [{'label': i, 'value':i} for i in button2],
-                                      value = 'Acute Respiratory Infection',
-                                      labelStyle = {'display': 'block'})
-                   ]),
-                   html.Div(className = 'Map, indicater',
-                            children = [
-                                html.Div(dcc.Graph(id = 'map3'), style = {'float':'left','width': '50%','height': 650,'margin-left': 'auto','margin-right': 0}),
-                                html.Div(dcc.Graph(id = 'map4'), style = {'float':'left','width': '50%','height': 650,'margin-left': 'auto','margin-right': 0}),
-                                html.Div(dcc.Graph(id = 'idc_jachigu1'),style = {'float':'left','width':'50%'}),
-                                html.Div(dcc.Graph(id = 'idc_jachigu2'),style = {'float':'right','width':'50%'})
-                ])
-                                        
-               ]),
-         #Tab 3
-          dcc.Tab(label = '부동산 매매가 대비 출산율',
-                style = {'padding': '3px', 'fontWeight': 'bold',
-                         'borderBottom': '1px solid #d6d6d6'},
-                selected_style = {'padding': '3px', 'backgroundColor': '#119DFF', 'color': 'white',
-                                  'borderBottom': '1px solid #d6d6d6', 'borderTop': '1px solid #d6d6d6'},
-                children = [
-                   html.Div([
-                       html.P(children = '부동산 매매가: '),
-                       dcc.RadioItems(id = 'radio',
-                                      options = [{'label': i, 'value':i} for i in button3],
-                                      value = 'Acute Respiratory Infection',
-                                      labelStyle = {'display': 'block'})
-                   ]),
-                   html.Div(className = 'Map, indicater',
-                            children = [
-                               html.Div(dcc.Graph(id = 'map5'), style = {'float':'left','width': '50%','height': 650,'margin-left': 'auto','margin-right': 0}),
-                                html.Div(dcc.Graph(id = 'map6'), style = {'float':'left','width': '50%','height': 650,'margin-left': 'auto','margin-right': 0}),
-                                html.Div(dcc.Graph(id = 'idc_jachigu3'),style = {'float':'left','width':'50%'}),
-                                html.Div(dcc.Graph(id = 'idc_jachigu4'),style = {'float':'right','width':'50%'})
-                ])
-               ]),
-          #Tab 4
-           dcc.Tab(label = '교육비 대비 출산율',
-                style = {'padding': '3px', 'fontWeight': 'bold',
-                         'borderBottom': '1px solid #d6d6d6'},
-                selected_style = {'padding': '3px', 'backgroundColor': '#119DFF', 'color': 'white',
-                                  'borderBottom': '1px solid #d6d6d6', 'borderTop': '1px solid #d6d6d6'},
-                children = [
-                   html.Div([
-                       html.P(children = '교육비: '),
-                       dcc.RadioItems(id = 'radio',
-                                      options = [{'label': i, 'value':i} for i in button4],
-                                      value = 'Acute Respiratory Infection',
-                                      labelStyle = {'display': 'block'})
-                   ]),
-                   html.Div(className = 'Map, indicater',
-                            children = [
-                                html.Div(dcc.Graph(id = 'map7'), style = {'float':'left','width': '50%','height': 650,'margin-left': 'auto','margin-right': 0}),
-                                html.Div(dcc.Graph(id = 'map8'), style = {'float':'left','width': '50%','height': 650,'margin-left': 'auto','margin-right': 0}),
-                                html.Div(dcc.Graph(id = 'pie1'), style = {'float':'left','display':'inline-block','width':'50%'}),
-                                html.Div(dcc.Graph(id = 'pie2'), style = {'float':'left','display':'inline-block','width':'50%'})
-                ])
-               ])
-    ])
-])
-
-# 앱 실행
-
-if __name__=='__main__':
-    app.run_server(debug = False)
-
-
-# In[ ]:
-
-
-
-
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "8f559040-72b0-4200-af68-1666d011a895",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Dash is running on http://127.0.0.1:8050/\n",
+      "\n",
+      " * Serving Flask app '__main__'\n",
+      " * Debug mode: off\n"
+     ]
+    }
+   ],
+   "source": [
+    "import dash\n",
+    "from dash import dcc, html, Input, Output\n",
+    "import pandas as pd\n",
+    "import plotly.express as px\n",
+    "from plotly import graph_objects as go\n",
+    "\n",
+    "# Load data\n",
+    "birth_rate_data = pd.read_csv('/Users/hyeongseokkim/Desktop/데이터마이닝 자료/babyboom/data/seoul_birth_ave.csv',encoding='euc-kr')\n",
+    "male_employment_data = pd.read_csv('/Users/hyeongseokkim/Desktop/데이터마이닝 자료/babyboom/data/seoul_employ_m.csv',encoding='euc-kr')\n",
+    "female_employment_data = pd.read_csv('/Users/hyeongseokkim/Desktop/데이터마이닝 자료/babyboom/data/seoul_employ_w.csv',encoding='euc-kr')\n",
+    "sigungu_data = pd.read_csv('/Users/hyeongseokkim/Desktop/데이터마이닝 자료/babyboom/data/seoul_employ_sigungu.csv',encoding='euc-kr')\n",
+    "\n",
+    "# Merge economic activity data\n",
+    "employment_data = pd.merge(male_employment_data, female_employment_data, on='연도', how='inner', suffixes=('_male', '_female'))\n",
+    "\n",
+    "# Initialize the Dash app\n",
+    "app = dash.Dash(__name__)\n",
+    "\n",
+    "# Define the layout of the dashboard\n",
+    "app.layout = html.Div(children=[\n",
+    "    html.H1(children='Seoul Statistics Dashboard'),\n",
+    "\n",
+    "    # Tabs\n",
+    "    dcc.Tabs(id='tabs', value='tab1', children=[\n",
+    "        dcc.Tab(label='Combined Chart', value='tab1', children=[\n",
+    "            # Dropdown for selecting economic activity data\n",
+    "            dcc.Dropdown(\n",
+    "                id='activity-dropdown',\n",
+    "                options=[\n",
+    "                    {'label': 'Male Economic Activity Participation Rate', 'value': '남자경제활동참가율'},\n",
+    "                    {'label': 'Female Economic Activity Participation Rate', 'value': '여자경제활동참가율'}\n",
+    "                ],\n",
+    "                value='남자경제활동참가율',\n",
+    "                style={'width': '50%'}\n",
+    "            ),\n",
+    "\n",
+    "            # Combined chart\n",
+    "            dcc.Graph(\n",
+    "                id='combined-chart',\n",
+    "                figure=px.bar(\n",
+    "                    birth_rate_data, \n",
+    "                    x='연도', \n",
+    "                    y='평균출산율', \n",
+    "                    title='Birth Rate and Economic Activity Participation Rates Over Years'\n",
+    "                ).update_traces(marker_color='rgba(152, 0, 0, 0.5)').update_layout(\n",
+    "                    yaxis=dict(title='Birth Rate'),\n",
+    "                    xaxis=dict(title='Year'),\n",
+    "                    barmode='group',\n",
+    "                    yaxis2=dict(\n",
+    "                        title='Economic Activity Participation Rate',\n",
+    "                        overlaying='y',\n",
+    "                        side='right'  \n",
+    "                    )\n",
+    "                )\n",
+    "            )\n",
+    "        ]),\n",
+    "\n",
+    "        dcc.Tab(label='Economic Activity Maps', value='tab2', children=[\n",
+    "            # Dropdown for selecting year\n",
+    "            dcc.Dropdown(\n",
+    "                id='map-year-dropdown',\n",
+    "                options=[\n",
+    "                    {'label': '2022', 'value': '2022'},\n",
+    "                    {'label': '2021', 'value': '2021'},\n",
+    "                    # Add more years as needed\n",
+    "                ],\n",
+    "                value='2022',\n",
+    "                style={'width': '50%'}\n",
+    "            ),\n",
+    "\n",
+    "            # Map charts\n",
+    "            html.Div([\n",
+    "                dcc.Graph(\n",
+    "                    id='map-chart1',\n",
+    "                    style={'width': '50%', 'display': 'inline-block'},\n",
+    "                ),\n",
+    "                dcc.Graph(\n",
+    "                    id='map-chart2',\n",
+    "                    style={'width': '50%', 'display': 'inline-block'},\n",
+    "                ),\n",
+    "            ])\n",
+    "        ])\n",
+    "    ])\n",
+    "])\n",
+    "\n",
+    "\n",
+    "\n",
+    "# Define callback to update chart based on dropdown selection\n",
+    "@app.callback(\n",
+    "    Output('combined-chart', 'figure'),\n",
+    "    [Input('activity-dropdown', 'value')]\n",
+    ")\n",
+    "def update_chart(selected_activity):\n",
+    "    trace = go.Scatter(\n",
+    "        x=birth_rate_data['연도'], \n",
+    "        y=employment_data[selected_activity], \n",
+    "        name=selected_activity,\n",
+    "        line=dict(color='blue'),\n",
+    "        yaxis='y2'\n",
+    "    )\n",
+    "    \n",
+    "    figure = px.bar(\n",
+    "        birth_rate_data, \n",
+    "        x='연도', \n",
+    "        y='평균출산율', \n",
+    "        title=f'Birth Rate and {selected_activity} Over Years'\n",
+    "    ).update_traces(marker_color='rgba(152, 0, 0, 0.5)').update_layout(\n",
+    "        yaxis=dict(title='Birth Rate'),\n",
+    "        xaxis=dict(title='Year'),\n",
+    "        barmode='group',\n",
+    "        yaxis2=dict(\n",
+    "            title='Economic Activity Participation Rate',\n",
+    "            overlaying='y',\n",
+    "            side='right'\n",
+    "        )\n",
+    "    ).add_trace(trace)\n",
+    "\n",
+    "    return figure\n",
+    "@app.callback(\n",
+    "    [Output('map-chart1', 'figure'),\n",
+    "     Output('map-chart2', 'figure')],\n",
+    "    [Input('map-year-dropdown', 'value')]\n",
+    ")\n",
+    "def update_maps(selected_year):\n",
+    "    # Update the figures for map-chart1 and map-chart2 based on the selected year\n",
+    "    figure1 = px.choropleth(\n",
+    "        sigungu_data,\n",
+    "        geojson='https://raw.githubusercontent.com/southkorea/seoul-maps/master/kostat/2013/json/seoul_municipalities_geo_simple.json',\n",
+    "        locations='시군구별',\n",
+    "        featureidkey=\"properties.SIG_KOR_NM\",\n",
+    "        color=selected_year,\n",
+    "        color_continuous_scale='Viridis',\n",
+    "        title=f'Economic Activity Participation Rate by City and District (Map 1) - {selected_year}'\n",
+    "    ).update_geos(fitbounds=\"locations\", visible=False)\n",
+    "\n",
+    "    figure2 = px.choropleth(\n",
+    "        sigungu_data,\n",
+    "        geojson='https://raw.githubusercontent.com/southkorea/seoul-maps/master/kostat/2013/json/seoul_municipalities_geo_simple.json',\n",
+    "        locations='시군구별',\n",
+    "        featureidkey=\"properties.SIG_KOR_NM\",\n",
+    "        color=selected_year,\n",
+    "        color_continuous_scale='Viridis',\n",
+    "        title=f'Economic Activity Participation Rate by City and District (Map 2) - {selected_year}'\n",
+    "    ).update_geos(fitbounds=\"locations\", visible=False)\n",
+    "\n",
+    "    return figure1, figure2\n",
+    "# Run the app\n",
+    "if __name__ == '__main__':\n",
+    "    app.run_server(debug=False)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "e4c1f7e2",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.4"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
