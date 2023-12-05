@@ -2,7 +2,7 @@
  "cells": [
   {
    "cell_type": "code",
-   "execution_count": 8,
+   "execution_count": 1,
    "id": "8f559040-72b0-4200-af68-1666d011a895",
    "metadata": {},
    "outputs": [
@@ -14,6 +14,32 @@
       "\n",
       " * Serving Flask app '__main__'\n",
       " * Debug mode: off\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "\u001b[31m\u001b[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.\u001b[0m\n",
+      " * Running on http://127.0.0.1:8050\n",
+      "\u001b[33mPress CTRL+C to quit\u001b[0m\n",
+      "127.0.0.1 - - [05/Dec/2023 20:27:55] \"GET / HTTP/1.1\" 200 -\n",
+      "127.0.0.1 - - [05/Dec/2023 20:27:55] \"GET /_dash-component-suites/dash/deps/prop-types@15.v2_14_1m1699969288.8.1.min.js HTTP/1.1\" 200 -\n",
+      "127.0.0.1 - - [05/Dec/2023 20:27:55] \"GET /_dash-component-suites/dash/deps/polyfill@7.v2_14_1m1699969288.12.1.min.js HTTP/1.1\" 200 -\n",
+      "127.0.0.1 - - [05/Dec/2023 20:27:55] \"GET /_dash-component-suites/dash/dash-renderer/build/dash_renderer.v2_14_1m1699969287.min.js HTTP/1.1\" 200 -\n",
+      "127.0.0.1 - - [05/Dec/2023 20:27:55] \"GET /_dash-component-suites/dash/deps/react-dom@16.v2_14_1m1699969288.14.0.min.js HTTP/1.1\" 200 -\n",
+      "127.0.0.1 - - [05/Dec/2023 20:27:55] \"GET /_dash-component-suites/dash/deps/react@16.v2_14_1m1699969288.14.0.min.js HTTP/1.1\" 200 -\n",
+      "127.0.0.1 - - [05/Dec/2023 20:27:55] \"GET /_dash-component-suites/dash/dcc/dash_core_components.v2_12_1m1699969288.js HTTP/1.1\" 200 -\n",
+      "127.0.0.1 - - [05/Dec/2023 20:27:55] \"GET /_dash-component-suites/dash/dcc/dash_core_components-shared.v2_12_1m1699969288.js HTTP/1.1\" 200 -\n",
+      "127.0.0.1 - - [05/Dec/2023 20:27:56] \"GET /_dash-component-suites/dash/html/dash_html_components.v2_0_15m1699969288.min.js HTTP/1.1\" 200 -\n",
+      "127.0.0.1 - - [05/Dec/2023 20:27:56] \"GET /_dash-component-suites/dash/dash_table/bundle.v5_2_8m1699969287.js HTTP/1.1\" 200 -\n",
+      "127.0.0.1 - - [05/Dec/2023 20:27:56] \"GET /_dash-dependencies HTTP/1.1\" 200 -\n",
+      "127.0.0.1 - - [05/Dec/2023 20:27:56] \"GET /_dash-layout HTTP/1.1\" 200 -\n",
+      "127.0.0.1 - - [05/Dec/2023 20:27:56] \"\u001b[36mGET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1\u001b[0m\" 304 -\n",
+      "127.0.0.1 - - [05/Dec/2023 20:27:56] \"\u001b[36mGET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1\u001b[0m\" 304 -\n",
+      "127.0.0.1 - - [05/Dec/2023 20:27:56] \"\u001b[36mGET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1\u001b[0m\" 304 -\n",
+      "127.0.0.1 - - [05/Dec/2023 20:27:56] \"POST /_dash-update-component HTTP/1.1\" 200 -\n",
+      "127.0.0.1 - - [05/Dec/2023 20:27:56] \"POST /_dash-update-component HTTP/1.1\" 200 -\n"
      ]
     }
    ],
@@ -35,7 +61,7 @@
     "\n",
     "# Initialize the Dash app\n",
     "app = dash.Dash(__name__)\n",
-    "\n",
+    "server = app.server\n",
     "# Define the layout of the dashboard\n",
     "app.layout = html.Div(children=[\n",
     "    html.H1(children='Seoul Statistics Dashboard'),\n",
