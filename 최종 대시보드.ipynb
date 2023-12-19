@@ -2,8 +2,10 @@
  "cells": [
   {
    "cell_type": "code",
-   "execution_count": 4,
-   "metadata": {},
+   "execution_count": 1,
+   "metadata": {
+    "tags": []
+   },
    "outputs": [
     {
      "name": "stdout",
@@ -22,19 +24,20 @@
       "\u001b[31m\u001b[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.\u001b[0m\n",
       " * Running on http://127.0.0.1:8050\n",
       "\u001b[33mPress CTRL+C to quit\u001b[0m\n",
-      "127.0.0.1 - - [17/Dec/2023 23:16:38] \"GET / HTTP/1.1\" 200 -\n",
-      "127.0.0.1 - - [17/Dec/2023 23:16:38] \"GET /_dash-layout HTTP/1.1\" 200 -\n",
-      "127.0.0.1 - - [17/Dec/2023 23:16:38] \"GET /_dash-dependencies HTTP/1.1\" 200 -\n",
-      "127.0.0.1 - - [17/Dec/2023 23:16:38] \"\u001b[36mGET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1\u001b[0m\" 304 -\n",
-      "127.0.0.1 - - [17/Dec/2023 23:16:38] \"\u001b[36mGET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1\u001b[0m\" 304 -\n",
-      "127.0.0.1 - - [17/Dec/2023 23:16:38] \"\u001b[36mGET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1\u001b[0m\" 304 -\n",
-      "127.0.0.1 - - [17/Dec/2023 23:16:38] \"POST /_dash-update-component HTTP/1.1\" 200 -\n",
-      "127.0.0.1 - - [17/Dec/2023 23:16:38] \"POST /_dash-update-component HTTP/1.1\" 200 -\n",
-      "127.0.0.1 - - [17/Dec/2023 23:16:38] \"POST /_dash-update-component HTTP/1.1\" 200 -\n",
-      "127.0.0.1 - - [17/Dec/2023 23:16:38] \"POST /_dash-update-component HTTP/1.1\" 200 -\n",
-      "127.0.0.1 - - [17/Dec/2023 23:16:38] \"POST /_dash-update-component HTTP/1.1\" 200 -\n",
-      "127.0.0.1 - - [17/Dec/2023 23:16:38] \"POST /_dash-update-component HTTP/1.1\" 200 -\n",
-      "127.0.0.1 - - [17/Dec/2023 23:16:38] \"POST /_dash-update-component HTTP/1.1\" 200 -\n"
+      "127.0.0.1 - - [19/Dec/2023 20:19:31] \"GET / HTTP/1.1\" 200 -\n",
+      "127.0.0.1 - - [19/Dec/2023 20:19:31] \"GET /_dash-component-suites/dash/dash-renderer/build/dash_renderer.v2_14_1m1699969287.min.js HTTP/1.1\" 200 -\n",
+      "127.0.0.1 - - [19/Dec/2023 20:19:31] \"GET /_dash-dependencies HTTP/1.1\" 200 -\n",
+      "127.0.0.1 - - [19/Dec/2023 20:19:31] \"GET /_dash-layout HTTP/1.1\" 200 -\n",
+      "127.0.0.1 - - [19/Dec/2023 20:19:31] \"\u001b[36mGET /_dash-component-suites/dash/dcc/async-graph.js HTTP/1.1\u001b[0m\" 304 -\n",
+      "127.0.0.1 - - [19/Dec/2023 20:19:31] \"\u001b[36mGET /_dash-component-suites/dash/dcc/async-dropdown.js HTTP/1.1\u001b[0m\" 304 -\n",
+      "127.0.0.1 - - [19/Dec/2023 20:19:31] \"\u001b[36mGET /_dash-component-suites/plotly/package_data/plotly.min.js HTTP/1.1\u001b[0m\" 304 -\n",
+      "127.0.0.1 - - [19/Dec/2023 20:19:31] \"POST /_dash-update-component HTTP/1.1\" 200 -\n",
+      "127.0.0.1 - - [19/Dec/2023 20:19:31] \"POST /_dash-update-component HTTP/1.1\" 200 -\n",
+      "127.0.0.1 - - [19/Dec/2023 20:19:31] \"POST /_dash-update-component HTTP/1.1\" 200 -\n",
+      "127.0.0.1 - - [19/Dec/2023 20:19:31] \"POST /_dash-update-component HTTP/1.1\" 200 -\n",
+      "127.0.0.1 - - [19/Dec/2023 20:19:31] \"POST /_dash-update-component HTTP/1.1\" 200 -\n",
+      "127.0.0.1 - - [19/Dec/2023 20:19:32] \"POST /_dash-update-component HTTP/1.1\" 200 -\n",
+      "127.0.0.1 - - [19/Dec/2023 20:19:32] \"POST /_dash-update-component HTTP/1.1\" 200 -\n"
      ]
     }
    ],
@@ -423,7 +426,7 @@
     "    fig.add_trace(bar_trace, secondary_y=False)\n",
     "    fig.add_trace(line_trace, secondary_y=True)\n",
     "\n",
-    "    fig.update_layout(title_text=f'{selected_year}년 출산율과 부채 중 교육비 비율')\n",
+    "    fig.update_layout(title_text=f'{selected_year}년 출산율과 부채 중 교육비 비율, 서울열린데이터광장')\n",
     "    fig.update_xaxes(title_text='자치구별')\n",
     "    fig.update_yaxes(title_text='출산율', secondary_y=False)\n",
     "    fig.update_yaxes(title_text='부채 중 교육비 비율', secondary_y=True)\n",
@@ -451,7 +454,7 @@
     "\n",
     "    # Update layout\n",
     "    fig.update_layout(\n",
-    "        title_text=f'{selected_year} 서울시 시군구 부동산 가격',\n",
+    "        title_text=f'{selected_year} 서울시 시군구 부동산 가격, 국토교통부 실거래가 공개시스템',\n",
     "        xaxis_title='시군구',\n",
     "        yaxis_title='Y1 Axis',\n",
     "        height=400\n",
@@ -476,7 +479,7 @@
     "    fig.add_trace(bar_trace, row=1, col=1, secondary_y=False)\n",
     "    fig.add_trace(line_trace, row=1, col=1, secondary_y=True)\n",
     "\n",
-    "    fig.update_layout(title_text=f'{selected_year}년 출산율과 교육재정지원현황 대시보드', height=800, width=1000)\n",
+    "    fig.update_layout(title_text=f'{selected_year}년 출산율과 교육재정지원현황, 서울열린데이터광장', height=800, width=1000)\n",
     "    fig.update_xaxes(title_text='자치구별', row=2, col=1)\n",
     "    fig.update_yaxes(title_text='출산율', secondary_y=False, row=1, col=1)\n",
     "    fig.update_yaxes(title_text='교육재정지원현황', secondary_y=True, row=1, col=1)\n",
@@ -501,7 +504,7 @@
     "    )\n",
     "\n",
     "    layout = go.Layout(\n",
-    "        title=f'1인가구 비율 - {selected_year}',\n",
+    "        title=f'1인가구 비율 - {selected_year}, kosis 국가통계포털',\n",
     "        mapbox_style=\"carto-positron\",\n",
     "        mapbox_zoom=8.5,\n",
     "        mapbox_center={\"lat\": 37.6, \"lon\": 127}\n",
@@ -576,7 +579,7 @@
  ],
  "metadata": {
   "kernelspec": {
-   "display_name": "waynekim",
+   "display_name": "Python 3 (ipykernel)",
    "language": "python",
    "name": "python3"
   },
@@ -591,9 +594,8 @@
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
    "version": "3.11.4"
-  },
-  "orig_nbformat": 4
+  }
  },
  "nbformat": 4,
- "nbformat_minor": 2
+ "nbformat_minor": 4
 }
